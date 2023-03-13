@@ -1,0 +1,17 @@
+.raffle-title {
+	text-align: center;
+	color: orange;
+	font-size: 50px;
+}
+
+.raffle-buttonBox {
+	text-align: center;
+}
+
+.raffle-button {
+	background-color: #a4d255;
+	color: white;
+	border: none;
+	padding: 10px 30px;
+	font-size: 50px;
+}
