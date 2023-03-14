@@ -21,23 +21,6 @@ public class RaffleService {
 
 		int res = r.nextInt(20000);
 
-		if (res >= 1 && res <= 50) {
-			System.out.println("1등!!!!!!");
-			System.out.println(res);
-		} else if (res >= 51 && res <= 250) {
-			System.out.println("2등 당첨!!!");
-			System.out.println(res);
-		} else if (res >= 251 && res <= 500) {
-			System.out.println("3등 당첨!");
-			System.out.println(res);
-		} else if (res >= 501 && res <= 10800) {
-			System.out.println("4등..!");
-			System.out.println(res);
-		} else {
-			System.out.println("꽝....");
-			System.out.println(res);
-		}
-
 		return res;
 
 	} // byLOt class
