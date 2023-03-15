@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Wisekit Raffle Start</title>
+<link rel="stylesheet" href="../css/basicCss.css">
+</head>
+<body>
+	<h1 class="raffle-title">
+		<img src="http://www.wisekit.co.kr/assets/img/common/logo1.png">
+		Raffle!
+	</h1>
+	<form action="/raffle/byLot" method="get">
+		<div class="raffle-buttonBox">
+			<input type="submit" value="Click me!!" class="raffle-button"
+				id="raffle-button" />
+		</div>
+	</form>
+
+
+</body>
+
+<script type="text/javascript">
+	const raffleButton = document.getElementById('raffle-button');
+
+	raffleButton.addEventListener('mouseover', function(event) {
+		raffleButton.style.color = "#a4d255";
+		raffleButton.style.backgroundColor = "white";
+		raffleButton.style.fontSize = "70px";
+	})
+
+	raffleButton.addEventListener('mouseout', function(event) {
+		raffleButton.style.color = "white";
+		raffleButton.style.backgroundColor = "#a4d255";
+		raffleButton.style.fontSize = "50px";
+	})
+</script>
+
+</html>

@@ -25,11 +25,11 @@ public class Member {
 	@Column(name = "\"회원 번호\"")
 	private int memberNum;
 
-	@Column(name = "\"회원 아이디\"")
-	private String memberId;
-
 	@Column(name = "\"회원 이름\"")
 	private String memberName;
+
+	@Column(name = "\"회원 핸드폰 번호\"")
+	private String memberPhoneNum;
 
 	// --------<@OneToMany / winner>-------------------------------------------------------------------------------------
 	@OneToMany(mappedBy = "member")

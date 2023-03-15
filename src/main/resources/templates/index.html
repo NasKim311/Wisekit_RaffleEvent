@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Wisekit Raffle Start</title>
+<title>Wisekit Event Start</title>
 <link rel="stylesheet" href="../css/basicCss.css">
 </head>
 <body>
@@ -10,30 +10,21 @@
 		<img src="http://www.wisekit.co.kr/assets/img/common/logo1.png">
 		Raffle!
 	</h1>
-	<form action="/raffle/byLot" method="get">
+	<form action="/member/join" method="post" th:object="${memberDTO}">
 		<div class="raffle-buttonBox">
-			<input type="submit" value="Click me!!" class="raffle-button"
-				id="raffle-button" />
+			<input type="text" placeholder="이름을 입력해주세요." class="text-box" th:field="*{memberName}"/>
+		</div>
+		<div class="raffle-buttonBox">
+			<input type="text" placeholder="핸드폰 번호를 입력해주세요.(-제외)" class="text-box" th:field="*{memberPhoneNum}"/>
+		</div>
+		<div class="raffle-buttonBox">
+			<input type="submit" />
 		</div>
 	</form>
 
 
 </body>
 
-<script type="text/javascript">
-	const raffleButton = document.getElementById('raffle-button');
 
-	raffleButton.addEventListener('mouseover', function(event) {
-		raffleButton.style.color = "#a4d255";
-		raffleButton.style.backgroundColor = "white";
-		raffleButton.style.fontSize = "70px";
-	})
-
-	raffleButton.addEventListener('mouseout', function(event) {
-		raffleButton.style.color = "white";
-		raffleButton.style.backgroundColor = "#a4d255";
-		raffleButton.style.fontSize = "50px";
-	})
-</script>
 
 </html>
