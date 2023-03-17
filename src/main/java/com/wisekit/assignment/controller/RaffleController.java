@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.wisekit.assignment.domain.Member;
+import com.wisekit.assignment.domain.Winner;
 import com.wisekit.assignment.dto.MemberDTO;
 import com.wisekit.assignment.service.RaffleService;
 
@@ -25,8 +27,12 @@ public class RaffleController {
 	public String byLotPage(Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("member");
+		Winner winner = new Winner();
 
+		// 표 추첨 메소드
 		int byLotNum = raffleService.byLOt();
+
 		String firstWinner = "1등 당첨!!!!!";
 		String secondWinner = "2등 당첨!!!";
 		String thirdWinner = "3등 당첨!!";
@@ -35,6 +41,7 @@ public class RaffleController {
 
 		if (byLotNum >= 1 && byLotNum <= 50) {
 			model.addAttribute("winnerRank", firstWinner);
+
 		} else if (byLotNum >= 51 && byLotNum <= 250) {
 			model.addAttribute("winnerRank", secondWinner);
 		} else if (byLotNum >= 251 && byLotNum <= 500) {

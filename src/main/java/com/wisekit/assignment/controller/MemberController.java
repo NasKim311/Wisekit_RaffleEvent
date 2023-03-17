@@ -8,8 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wisekit.assignment.domain.Member;
 import com.wisekit.assignment.dto.MemberDTO;
@@ -31,24 +32,36 @@ public class MemberController {
 
 //------------<memberJoin() / 멤버 정보 입력>------------------------------------------------------------------------------------		
 	@PostMapping("/member/join")
-	public String memberJoin(@ModelAttribute MemberDTO memberDTO, Model model,  HttpServletRequest request) {
+	public String memberJoin(@ModelAttribute MemberDTO memberDTO, Model model, HttpServletRequest request) {
 
 		Member member = new Member();
 		member.setMemberName(memberDTO.getMemberName());
 		member.setMemberPhoneNum(memberDTO.getMemberPhoneNum());
 
-		// 중복 추첨일 경우 (데이터 저장 및 추첨 진행 x)
-		if (memberService.memberDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) != null) {
-			System.out.println("중복 추첨");
-			model.addAttribute("msg", "중복 추첨은 불가합니다.");
-			return "index";
-		}
+//		// 중복 추첨일 경우 (데이터 저장 및 추첨 진행 x)
+//		if (memberService.memberDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) != null) {
+//			System.out.println("중복 추첨");
+//			model.addAttribute("msg", "중복 추첨은 불가합니다.");
+//			return "index";
+//		}
 
 		// 최초 추첨일 경우 (데이터 저장 및 추첨 진행 o)
 		memberService.memberJoin(member);
-		HttpSession session = request.getSession();	// 세션사용
-//		session.getAttribute(member);
+		HttpSession session = request.getSession(); // 세션사용
+		session.setAttribute("member", member);
 		return "raffle/raffleReady";
 	}
+	
+//------------<memberDoubleCheck() / 멤버 중복 확인>------------------------------------------------------------------------------------		
+	@ResponseBody
+	@RequestMapping(value = "/member", method = RequestMethod.POST)
+    public String memberDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
+        System.out.println(memberDTO.getMemberName());
+        System.out.println(memberDTO.getMemberPhoneNum());
+        if (memberService.memberDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) != null) {
+            return "중복 추첨은 불가합니다.";
+        }
+        return "성공";
+    }
 
 } // MemberController class

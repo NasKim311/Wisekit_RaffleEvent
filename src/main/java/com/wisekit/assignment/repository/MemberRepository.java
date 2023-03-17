@@ -1,7 +1,5 @@
 package com.wisekit.assignment.repository;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
@@ -18,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberRepository {
 
 	private final EntityManager em;
-	JPQLQueryFactory queryFactory;
+	JPAQueryFactory queryFactory;
 
 //------------<memberJoin() / 멤버정보 저장하는 메소드>------------------------------------------------------------------------------------		
 	public void memberJoin(Member member) {
