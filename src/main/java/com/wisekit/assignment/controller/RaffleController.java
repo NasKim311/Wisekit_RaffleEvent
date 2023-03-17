@@ -20,18 +20,12 @@ public class RaffleController {
 
 	private final RaffleService raffleService;
 
-//------------<indexPage() / 메인 페이지로 이동>------------------------------------------------------------------------------------		
-	@GetMapping("/")
-	public String indexPage(@ModelAttribute MemberDTO memberDTO) {
-		return "index";
-	}
-	
 //------------<byLotPage() / 이벤트 당첨 페이지로 이동>------------------------------------------------------------------------------------		
 	@GetMapping("/raffle/byLot")
-	public String byLotPage(Model model , HttpServletRequest request) {
+	public String byLotPage(Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession();
-		
+
 		int byLotNum = raffleService.byLOt();
 		String firstWinner = "1등 당첨!!!!!";
 		String secondWinner = "2등 당첨!!!";
@@ -40,19 +34,18 @@ public class RaffleController {
 		String boom = "아쉽지만 꽝입니다...";
 
 		if (byLotNum >= 1 && byLotNum <= 50) {
-			model.addAttribute("winnerRank" , firstWinner);
+			model.addAttribute("winnerRank", firstWinner);
 		} else if (byLotNum >= 51 && byLotNum <= 250) {
-			model.addAttribute("winnerRank" , secondWinner);
+			model.addAttribute("winnerRank", secondWinner);
 		} else if (byLotNum >= 251 && byLotNum <= 500) {
-			model.addAttribute("winnerRank" , thirdWinner);
+			model.addAttribute("winnerRank", thirdWinner);
 		} else if (byLotNum >= 501 && byLotNum <= 10800) {
-			model.addAttribute("winnerRank" , fourthWinner);
+			model.addAttribute("winnerRank", fourthWinner);
 		} else {
-			model.addAttribute("winnerRank" , boom);
+			model.addAttribute("winnerRank", boom);
 		}
 
 		return "raffle/raffleDone";
 	}
-	
-	
+
 } // RaffleController class

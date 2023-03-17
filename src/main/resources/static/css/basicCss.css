@@ -27,3 +27,9 @@
 	text-align: center;
 	font-size: 45px;
 }
+
+.field-error {
+	text-align: center;
+	border-color: #dc3545;
+	color: #dc3545;
+}

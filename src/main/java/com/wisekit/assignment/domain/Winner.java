@@ -21,7 +21,7 @@ public class Winner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "winnerIdSequence")
 	@Column(name = "\"당첨자 번호\"")
-	private int winnerNum;
+	private Long winnerNum;
 
 	@Column(name = "\"당첨자 표 번호\"")
 	private int winnerByLotNum;

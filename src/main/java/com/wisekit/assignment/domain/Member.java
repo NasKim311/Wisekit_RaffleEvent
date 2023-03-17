@@ -15,15 +15,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@SequenceGenerator(name = "MemberIdSequence", sequenceName = "Member_seq", allocationSize = 1)
+@SequenceGenerator(name = "memberIdSequence", sequenceName = "member_seq", allocationSize = 1)
 @Getter
 @Setter
 public class Member {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MemberIdSequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memberIdSequence")
 	@Column(name = "\"회원 번호\"")
-	private int memberNum;
+	private Long memberNum;
 
 	@Column(name = "\"회원 이름\"")
 	private String memberName;
@@ -31,7 +31,8 @@ public class Member {
 	@Column(name = "\"회원 핸드폰 번호\"")
 	private String memberPhoneNum;
 
-	// --------<@OneToMany / winner>-------------------------------------------------------------------------------------
+	// --------<@OneToMany /
+	// winner>-------------------------------------------------------------------------------------
 	@OneToMany(mappedBy = "member")
 	private List<Winner> winners = new ArrayList<Winner>();
 

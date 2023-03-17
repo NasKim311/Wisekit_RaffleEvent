@@ -36,15 +36,15 @@ dependencies {
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// Oracle Cloud 사용을 위한 라이브러리
+	implementation 'com.oracle.database.security:oraclepki'
+    implementation 'com.oracle.database.security:osdt_core'
+    implementation 'com.oracle.database.security:osdt_cert'
 	
 	// QueryDSL 사용하기 위한 라이브러리
 	implementation 'com.querydsl:querydsl-jpa'
 	implementation 'com.querydsl:querydsl-apt'
 	
-	// Oracle Cloud 사용을 위한 라이브러리
-	implementation 'com.oracle.database.security:oraclepki'
-    implementation 'com.oracle.database.security:osdt_core'
-    implementation 'com.oracle.database.security:osdt_cert'
 }
 
 tasks.named('test') {
@@ -76,3 +76,6 @@ configurations {
    querydsl.extendsFrom compileClasspath 
 } 
 //---------QueryDSL
+
+
+

@@ -18,9 +18,18 @@ public class MemberService {
 //------------<memberJoin() / 멤버 정보 입력>------------------------------------------------------------------------------------		
 	@Transactional
 	public void memberJoin(Member member) {
-		
+
 		memberRepository.memberJoin(member);
-		
+
 	}
-	
+
+//------------<() / 중복 사용자 정보 확인하는 메소드>------------------------------------------------------------------------------------		
+	@Transactional
+	public Member memberDoubleCheck(String memberName, String memberPhoneNum) {
+
+		Member memberData = memberRepository.findByNamePhoneNum(memberName, memberPhoneNum);
+
+		return memberData;
+	}
+
 } // MemberService class
