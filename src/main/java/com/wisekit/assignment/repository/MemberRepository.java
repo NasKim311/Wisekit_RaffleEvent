@@ -29,8 +29,7 @@ public class MemberRepository {
 	public Member findByNamePhoneNum(String memberName, String memberPhoneNum) {
 		queryFactory = new JPAQueryFactory(em);
 
-		Member memberData = queryFactory.selectFrom(member)
-				.where(member.memberName.eq(memberName), member.memberPhoneNum.eq(memberPhoneNum)).fetchOne();
+		Member memberData = queryFactory.selectFrom(member).where(member.memberPhoneNum.eq(memberPhoneNum)).fetchOne();
 
 		return memberData;
 
