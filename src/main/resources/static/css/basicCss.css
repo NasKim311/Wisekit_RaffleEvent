@@ -29,7 +29,9 @@
 }
 
 .field-error {
+	border: none;
 	text-align: center;
 	border-color: #dc3545;
 	color: #dc3545;
+	font-size: 45px;
 }

@@ -7,7 +7,9 @@ spring:
     username: wisekit
     password: wisekit
     driver-class-name: oracle.jdbc.driver.OracleDriver
-
+  thymeleaf:
+    cache: false
+    
   jpa:
     hibernate:
       ddl-auto: create
@@ -15,7 +17,7 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-      
+        
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
