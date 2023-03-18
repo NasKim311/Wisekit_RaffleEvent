@@ -25,9 +25,9 @@ public class MemberService {
 
 //------------<() / 중복 사용자 정보 확인하는 메소드>------------------------------------------------------------------------------------		
 	@Transactional
-	public Member memberDoubleCheck(String memberName, String memberPhoneNum) {
+	public Member memberDoubleCheck(String memberPhoneNum) {
 
-		Member memberData = memberRepository.findByNamePhoneNum(memberName, memberPhoneNum);
+		Member memberData = memberRepository.findByNamePhoneNum(memberPhoneNum);
 
 		return memberData;
 	}

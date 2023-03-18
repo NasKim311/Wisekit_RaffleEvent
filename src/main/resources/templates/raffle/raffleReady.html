@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Wisekit Raffle Start</title>
 <link rel="stylesheet" href="../css/basicCss.css">
+<link rel="shortcut icon" href="#">
 </head>
 <body>
 	<h1 class="raffle-title">
-		<img src="../static/img/logo1.png"> Raffle!
+		<img src="/img/logo1.png"> Raffle!
 	</h1>
-	<form action="/raffle/byLot" method="get">
+	<form action="/raffle/byLot" method="post">
 		<div class="raffle-buttonBox">
 			<input type="submit" value="Click me!!" class="raffle-button"
 				id="raffle-button" />

@@ -1,5 +1,7 @@
 package com.wisekit.assignment.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +30,9 @@ public class Winner {
 
 	@Column(name = "\"당첨자 등수\"")
 	private int winnerRank;
+	
+	@Column(name = "\"당첨 날짜\"")
+	private LocalDate ByLotDate;
 
 	// --------<@ManyToOne / member>-------------------------------------------------------------------------------------
 	@ManyToOne

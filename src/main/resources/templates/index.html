@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <title>Wisekit Event Start</title>
 <link rel="stylesheet" href="../css/basicCss.css">
+<link rel="shortcut icon" href="#">
 </head>
 <body>
 	<h1 class="raffle-title">
-		<img src="../static/img/logo1.png"> Raffle!
+		<img src="/img/logo1.png"> Raffle!
 	</h1>
 	<form action="/member/join" method="post" th:object="${memberDTO}">
 
@@ -31,6 +32,7 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	
 <script type="text/javascript">
 	let form = document.querySelector('form');
 	form.addEventListener('submit', test);

@@ -38,30 +38,23 @@ public class MemberController {
 		member.setMemberName(memberDTO.getMemberName());
 		member.setMemberPhoneNum(memberDTO.getMemberPhoneNum());
 
-//		// 중복 추첨일 경우 (데이터 저장 및 추첨 진행 x)
-//		if (memberService.memberDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) != null) {
-//			System.out.println("중복 추첨");
-//			model.addAttribute("msg", "중복 추첨은 불가합니다.");
-//			return "index";
-//		}
-
 		// 최초 추첨일 경우 (데이터 저장 및 추첨 진행 o)
 		memberService.memberJoin(member);
 		HttpSession session = request.getSession(); // 세션사용
 		session.setAttribute("member", member);
 		return "raffle/raffleReady";
 	}
-	
+
 //------------<memberDoubleCheck() / 멤버 중복 확인>------------------------------------------------------------------------------------		
 	@ResponseBody
 	@RequestMapping(value = "/member", method = RequestMethod.POST)
-    public String memberDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
-        System.out.println(memberDTO.getMemberName());
-        System.out.println(memberDTO.getMemberPhoneNum());
-        if (memberService.memberDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) != null) {
-            return "중복 추첨은 불가합니다.";
-        }
-        return "성공";
-    }
+	public String memberDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
+		System.out.println(memberDTO.getMemberName());
+		System.out.println(memberDTO.getMemberPhoneNum());
+		if (memberService.memberDoubleCheck(memberDTO.getMemberPhoneNum()) != null) {
+			return "중복 추첨은 불가합니다.";
+		}
+		return "성공";
+	}
 
 } // MemberController class

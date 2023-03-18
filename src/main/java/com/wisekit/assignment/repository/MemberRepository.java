@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
 
-import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.wisekit.assignment.domain.Member;
 import static com.wisekit.assignment.domain.QMember.*;
@@ -24,13 +23,12 @@ public class MemberRepository {
 	}
 
 //------------<findAllMemberList() /해당 이름과 번호로 데이터 조회하는 메소드>------------------------------------------------------------------------------------		
-	public Member findByNamePhoneNum(String memberName, String memberPhoneNum) {
+	public Member findByNamePhoneNum(String memberPhoneNum) {
 		queryFactory = new JPAQueryFactory(em);
 
 		Member memberData = queryFactory.selectFrom(member).where(member.memberPhoneNum.eq(memberPhoneNum)).fetchOne();
 
 		return memberData;
-
 	}
 
 } // MemberRepository class

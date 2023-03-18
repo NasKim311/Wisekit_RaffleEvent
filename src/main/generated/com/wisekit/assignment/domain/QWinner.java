@@ -22,11 +22,13 @@ public class QWinner extends EntityPathBase<Winner> {
 
     public static final QWinner winner = new QWinner("winner");
 
+    public final DatePath<java.time.LocalDate> ByLotDate = createDate("ByLotDate", java.time.LocalDate.class);
+
     public final QMember member;
 
     public final NumberPath<Integer> winnerByLotNum = createNumber("winnerByLotNum", Integer.class);
 
-    public final NumberPath<Integer> winnerNum = createNumber("winnerNum", Integer.class);
+    public final NumberPath<Long> winnerNum = createNumber("winnerNum", Long.class);
 
     public final NumberPath<Integer> winnerRank = createNumber("winnerRank", Integer.class);
 

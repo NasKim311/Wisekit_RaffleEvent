@@ -1,5 +1,7 @@
 package com.wisekit.assignment.controller;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wisekit.assignment.domain.Member;
@@ -22,16 +25,13 @@ public class RaffleController {
 
 	private final RaffleService raffleService;
 
-//------------<byLotPage() / 이벤트 당첨 페이지로 이동>------------------------------------------------------------------------------------		
-	@GetMapping("/raffle/byLot")
+//------------<byLotPage() / 이벤트 당첨 결과 페이지로 이동>------------------------------------------------------------------------------------		
+	@PostMapping("/raffle/byLot")
 	public String byLotPage(Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession();
-		Member member = (Member) session.getAttribute("member");
+		Member memberData = (Member) session.getAttribute("member");
 		Winner winner = new Winner();
-
-		// 표 추첨 메소드
-		int byLotNum = raffleService.byLOt();
 
 		String firstWinner = "1등 당첨!!!!!";
 		String secondWinner = "2등 당첨!!!";
@@ -39,17 +39,31 @@ public class RaffleController {
 		String fourthWinner = "4등 당첨!";
 		String boom = "아쉽지만 꽝입니다...";
 
-		if (byLotNum >= 1 && byLotNum <= 50) {
-			model.addAttribute("winnerRank", firstWinner);
+		// 표 추첨 메소드
+		int byLotNum = raffleService.byLOt();
 
-		} else if (byLotNum >= 51 && byLotNum <= 250) {
-			model.addAttribute("winnerRank", secondWinner);
-		} else if (byLotNum >= 251 && byLotNum <= 500) {
-			model.addAttribute("winnerRank", thirdWinner);
-		} else if (byLotNum >= 501 && byLotNum <= 10800) {
-			model.addAttribute("winnerRank", fourthWinner);
+		// 해당 표에 따른 등수 추첨 메소드
+		int rankNum = raffleService.rankByLot(byLotNum);
+
+		// winner 객체에 데이터 할당
+		winner.setWinnerByLotNum(byLotNum);
+		winner.setWinnerRank(rankNum);
+		winner.setMember(memberData);
+		winner.setByLotDate(LocalDate.now());
+
+		// 사용자의 당첨 데이터 저장하는 메소드
+		raffleService.addByLotData(winner);
+
+		if (rankNum == 1) {
+			model.addAttribute("winnerRankTitle", firstWinner);
+		} else if (rankNum == 2) {
+			model.addAttribute("winnerRankTitle", secondWinner);
+		} else if (rankNum == 3) {
+			model.addAttribute("winnerRankTitle", thirdWinner);
+		} else if (rankNum == 4) {
+			model.addAttribute("winnerRankTitle", fourthWinner);
 		} else {
-			model.addAttribute("winnerRank", boom);
+			model.addAttribute("winnerRankTitle", boom);
 		}
 
 		return "raffle/raffleDone";

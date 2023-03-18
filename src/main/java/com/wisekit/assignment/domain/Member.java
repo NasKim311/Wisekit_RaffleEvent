@@ -31,8 +31,7 @@ public class Member {
 	@Column(name = "\"회원 핸드폰 번호\"")
 	private String memberPhoneNum;
 
-	// --------<@OneToMany /
-	// winner>-------------------------------------------------------------------------------------
+	// --------<@OneToMany / winner>-------------------------------------------------------------------------------------
 	@OneToMany(mappedBy = "member")
 	private List<Winner> winners = new ArrayList<Winner>();
 
