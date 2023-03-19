@@ -40,7 +40,7 @@ public class RaffleController {
 		String boom = "아쉽지만 꽝입니다...";
 
 		// 표 추첨 메소드
-		int byLotNum = raffleService.byLOt();
+		int byLotNum = raffleService.byLOt(memberData.getMemberNum());
 
 		// 해당 표에 따른 등수 추첨 메소드
 		int rankNum = raffleService.rankByLot(byLotNum);
