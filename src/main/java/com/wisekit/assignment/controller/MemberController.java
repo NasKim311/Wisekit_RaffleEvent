@@ -22,39 +22,39 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberController {
 
-	private final MemberService memberService;
+    private final MemberService memberService;
 
-//------------<indexPage() / 메인 페이지로 이동>------------------------------------------------------------------------------------		
-	@GetMapping("/")
-	public String indexPage(@ModelAttribute MemberDTO memberDTO) {
-		return "index";
-	}
+    //------------<indexPage() / 메인 페이지로 이동>------------------------------------------------------------------------------------
+    @GetMapping("/")
+    public String indexPage(@ModelAttribute MemberDTO memberDTO) {
+        memberService.createMember();
 
-//------------<memberJoin() / 멤버 정보 입력>------------------------------------------------------------------------------------		
-	@PostMapping("/member/join")
-	public String memberJoin(@ModelAttribute MemberDTO memberDTO, Model model, HttpServletRequest request) {
+        return "index";
+    }
 
-		Member member = new Member();
-		member.setMemberName(memberDTO.getMemberName());
-		member.setMemberPhoneNum(memberDTO.getMemberPhoneNum());
+    //------------<memberJoin() / 멤버 정보 입력>------------------------------------------------------------------------------------
+    @PostMapping("/member/join")
+    public String memberJoin(@ModelAttribute MemberDTO memberDTO, Model model, HttpServletRequest request) {
 
-		// 최초 추첨일 경우 (데이터 저장 및 추첨 진행 o)
-		memberService.memberJoin(member);
-		HttpSession session = request.getSession(); // 세션사용
-		session.setAttribute("member", member);
-		return "raffle/raffleReady";
-	}
+        Member member = new Member();
+        member.setMemberName(memberDTO.getMemberName());
+        member.setMemberPhoneNum(memberDTO.getMemberPhoneNum());
 
-//------------<memberDoubleCheck() / 멤버 중복 확인>------------------------------------------------------------------------------------		
-	@ResponseBody
-	@RequestMapping(value = "/member", method = RequestMethod.POST)
-	public String memberDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
-		System.out.println(memberDTO.getMemberName());
-		System.out.println(memberDTO.getMemberPhoneNum());
-		if (memberService.memberDoubleCheck(memberDTO.getMemberPhoneNum()) != null) {
-			return "중복 추첨은 불가합니다.";
-		}
-		return "성공";
-	}
+        // 최초 추첨일 경우 (데이터 저장 및 추첨 진행 o)
+        memberService.memberJoin(member);
+        HttpSession session = request.getSession(); // 세션사용
+        session.setAttribute("member", member);
+        return "raffle/raffleReady";
+    }
+
+    //------------<memberDoubleCheck() / 멤버 중복 확인>------------------------------------------------------------------------------------
+    @ResponseBody
+    @RequestMapping(value = "/member", method = RequestMethod.POST)
+    public String memberDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
+        if (memberService.memberDoubleCheck(memberDTO.getMemberPhoneNum()) != null) {
+            return "중복 추첨은 불가합니다.";
+        }
+        return "성공";
+    }
 
 } // MemberController class

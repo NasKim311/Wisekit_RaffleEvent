@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.wisekit.assignment.domain.RankResultContents;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class RaffleController {
 
 	private final RaffleService raffleService;
 
-//------------<byLotPage() / 이벤트 당첨 결과 페이지로 이동>------------------------------------------------------------------------------------		
+	//------------<byLotPage() / 이벤트 당첨 결과 페이지로 이동>------------------------------------------------------------------------------------
 	@PostMapping("/raffle/byLot")
 	public String byLotPage(Model model, HttpServletRequest request) {
 
@@ -33,20 +34,13 @@ public class RaffleController {
 		Member memberData = (Member) session.getAttribute("member");
 		Winner winner = new Winner();
 
-		String firstWinner = "1등 당첨!!!!!";
-		String secondWinner = "2등 당첨!!!";
-		String thirdWinner = "3등 당첨!!";
-		String fourthWinner = "4등 당첨!";
-		String boom = "아쉽지만 꽝입니다...";
-
 		// 표 추첨 메소드
-		int byLotNum = raffleService.byLOt(memberData.getMemberNum());
+		int byLotNum = raffleService.byLot(memberData.getMemberNum());
 
 		// 해당 표에 따른 등수 추첨 메소드
 		int rankNum = raffleService.rankByLot(byLotNum);
 
 		// winner 객체에 데이터 할당
-		winner.setWinnerByLotNum(byLotNum);
 		winner.setWinnerRank(rankNum);
 		winner.setMember(memberData);
 		winner.setByLotDate(LocalDate.now());
@@ -55,15 +49,15 @@ public class RaffleController {
 		raffleService.addByLotData(winner);
 
 		if (rankNum == 1) {
-			model.addAttribute("winnerRankTitle", firstWinner);
+			model.addAttribute("winnerRankTitle", RankResultContents.FIRSTWINNER.getRankResultContents());
 		} else if (rankNum == 2) {
-			model.addAttribute("winnerRankTitle", secondWinner);
+			model.addAttribute("winnerRankTitle", RankResultContents.SECONDWINNER.getRankResultContents());
 		} else if (rankNum == 3) {
-			model.addAttribute("winnerRankTitle", thirdWinner);
+			model.addAttribute("winnerRankTitle", RankResultContents.THIRDWINNER.getRankResultContents());
 		} else if (rankNum == 4) {
-			model.addAttribute("winnerRankTitle", fourthWinner);
+			model.addAttribute("winnerRankTitle", RankResultContents.FOURTHWINNER.getRankResultContents());
 		} else {
-			model.addAttribute("winnerRankTitle", boom);
+			model.addAttribute("winnerRankTitle", RankResultContents.BOOM.getRankResultContents());
 		}
 
 		return "raffle/raffleDone";

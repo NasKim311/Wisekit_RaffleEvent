@@ -18,97 +18,116 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RaffleService {
 
-	private final RaffleRepository raffleRepository;
+    private final RaffleRepository raffleRepository;
 
-//------------<byLot() / 표 추첨하는 메소드>------------------------------------------------------------------------------------	
-	@Transactional
-	public int byLOt(Long MemberNum) {
+    //------------<byLot() / 표 추첨하는 메소드>------------------------------------------------------------------------------------
+    @Transactional
+    public int byLot(Long MemberNum) {
 
-		// 난수 범위 설정
-		Random r = new Random();
-		int byLotNum = r.nextInt(10800);
+        Random r = new Random();
 
-		// 이벤트 날짜 설정
-		LocalDate eventStartDate = LocalDate.of(2023, 03, 19);
-		LocalDate eventNowDate = LocalDate.now();
-		LocalDate eventEndDate = LocalDate.of(2023, 03, 30);
-		Period period = Period.between(eventStartDate, eventNowDate);
+        // 당첨순위별 인원 변수
+        int firstWinnerCount = 50;
+        int secondWinnerCount = 250;
+        int thirdWinnerCount = 500;
+        int fourthWinnerCount = 10000;
+        int allWinnerCount = firstWinnerCount + secondWinnerCount + thirdWinnerCount + fourthWinnerCount;
 
-		// 일 평균 당첨자
-		int dayAverageWinnerCount = 720;
+        // 순위별 난수 생성 변수 -> [ 1등 = 1~50 , 2등 = 51~300 , 3등 = 301~800 , 4등 = 801~10800 ]
+        int firstWinnerbyLot = r.nextInt(firstWinnerCount);
+        int secondWinnerbyLot = r.nextInt(secondWinnerCount) + firstWinnerCount + 1;
+        int thirdWinnerbyLot = r.nextInt(thirdWinnerCount) + firstWinnerCount + secondWinnerCount + 1;
+        int fourthWinnerbyLot = r.nextInt(fourthWinnerCount) + firstWinnerCount + secondWinnerCount + thirdWinnerCount + 1;
 
-		// 당첨 데이터가 아무것도 없을시 오류가 발생하기 떄문
-		if (MemberNum != 1) {
+        // 순위를 결정짓는 난수를 담을 변수
+        int byLotNum = 0;
 
-			// 당첨자 모든 데이터 조회
-			List<Winner> winnerdatas = (List<Winner>) raffleRepository.findAllByLotData();
+        // 이벤트 날짜별 변수
+        LocalDate eventStartDate = LocalDate.of(2023, 03, 30);
+        LocalDate eventEndDate = LocalDate.of(2023, 04, 13);
+        LocalDate eventNowDate = LocalDate.now();
 
-			// 응모자가 일평균 당첨자보다 초과인 경우
-			if (MemberNum > dayAverageWinnerCount * (period.getDays() + 1)) {
-				// 일단위 총 1,2,3등이 당첨된 경우
-				if (raffleRepository.firstWinnerCount() > 3.33 * (period.getDays() + 1)
-						&& raffleRepository.secondWinnerCount() > 16.66 * (period.getDays() + 1)
-						&& raffleRepository.thirdWinnerCount() > 33.33 * (period.getDays() + 1)) {
+        // 진행기간별 변수
+        int ongoingPeriod = Period.between(eventStartDate, eventNowDate).getDays() + 1;
+        int wholePeriod = Period.between(eventStartDate, eventEndDate).getDays() + 1;
 
-					// 4등만 뽑히게 난수 범위 조절
-					byLotNum = r.nextInt(10800 - 801 + 1) + 801;
+        // 일 평균 당첨자
+        int dayAverageWinnerCount = allWinnerCount / wholePeriod;
 
-					for (int i = 0; i < winnerdatas.size(); i++) {
-						if (winnerdatas.get(i).getWinnerByLotNum() == byLotNum) {
-							byLotNum++;
-						}
-					}
 
-				}
 
-				// 응모자가 일평균 당첨자보다 미만인 경우
-			} else {
-				// 3등부터 오름차순으로 당첨확률이 높게 설정
-				if (raffleRepository.thirdWinnerCount() > 33.33 * (period.getDays() + 1)) {
-					byLotNum = r.nextInt(10800 - 801 + 1) + 801;
-				} else if (raffleRepository.secondWinnerCount() > 16.66 * (period.getDays() + 1)) {
-					byLotNum = r.nextInt(10800 - 801 + 1) + 801;
-				} else if (raffleRepository.firstWinnerCount() > 3.33 * (period.getDays() + 1)) {
-					byLotNum = r.nextInt(10800 - 801 + 1) + 801;
-				}
-			}
 
-		}
 
-		return byLotNum;
-	}
 
-//------------<rankByLot() / 추첨된 표에 따른 등수 추첨 메소드>------------------------------------------------------------------------------------	
-	public int rankByLot(int byLotNum) {
 
-		// rankNum = 1(1등) , 2(2등) , 3(3등) , 4(4등) , 5(꽝)
-		int rankNum = 0;
 
-		if (byLotNum >= 1 && byLotNum <= 50) {
-			rankNum = 1;
-			System.out.println("1등");
-		} else if (byLotNum >= 51 && byLotNum <= 300) {
-			rankNum = 2;
-			System.out.println("2등");
-		} else if (byLotNum >= 301 && byLotNum <= 800) {
-			rankNum = 3;
-			System.out.println("3등");
-		} else if (byLotNum >= 801 && byLotNum <= 10800) {
-			rankNum = 4;
-			System.out.println("4등");
-		} else {
-			rankNum = 5;
-			System.out.println("꽝");
-		}
 
-		return rankNum;
-	}
 
-//------------<addByLotData() / 추첨 정보 저장 메소드>------------------------------------------------------------------------------------	
-	@Transactional
-	public void addByLotData(Winner winnerData) {
-		raffleRepository.addByLotData(winnerData);
 
-	}
+
+
+        // 당첨 데이터가 아무것도 없을시 오류가 발생하기 떄문
+        if (MemberNum != 1) {
+
+            // 당첨자 모든 데이터 조회
+//			List<Winner> winnerdatas = (List<Winner>) raffleRepository.findAllByLotData();
+
+            // 응모자가 일평균 당첨자보다 초과인 경우
+            if (MemberNum > dayAverageWinnerCount * (ongoingPeriod + 1)) {
+                // 일단위 총 1,2,3등이 당첨된 경우
+                if (raffleRepository.firstWinnerCount() > 3.33 * (ongoingPeriod + 1)
+                        && raffleRepository.secondWinnerCount() > 16.66 * (ongoingPeriod + 1)
+                        && raffleRepository.thirdWinnerCount() > 33.33 * (ongoingPeriod + 1)) {
+
+                    // 4등만 뽑히게 난수 범위 조절
+                    byLotNum = r.nextInt(10800 - 801 + 1) + 801;
+
+
+                }
+
+                // 응모자가 일평균 당첨자보다 미만인 경우
+            } else {
+                // 3등부터 오름차순으로 당첨확률이 높게 설정
+                if (raffleRepository.thirdWinnerCount() > 33.33 * (ongoingPeriod + 1)) {
+                    byLotNum = r.nextInt(10800 - 801 + 1) + 801;
+                } else if (raffleRepository.secondWinnerCount() > 16.66 * (ongoingPeriod + 1)) {
+                    byLotNum = r.nextInt(10800 - 801 + 1) + 801;
+                } else if (raffleRepository.firstWinnerCount() > 3.33 * (ongoingPeriod + 1)) {
+                    byLotNum = r.nextInt(10800 - 801 + 1) + 801;
+                }
+            }
+
+        }
+
+        return byLotNum;
+    }
+
+    //------------<rankByLot() / 추첨된 표에 따른 등수 추첨 메소드>------------------------------------------------------------------------------------
+    public int rankByLot(int byLotNum) {
+
+        // rankNum = 1(1등) , 2(2등) , 3(3등) , 4(4등) , 5(꽝)
+        int rankNum = 0;
+
+        if (byLotNum >= 1 && byLotNum <= 50) {
+            rankNum = 1;
+        } else if (byLotNum >= 51 && byLotNum <= 300) {
+            rankNum = 2;
+        } else if (byLotNum >= 301 && byLotNum <= 800) {
+            rankNum = 3;
+        } else if (byLotNum >= 801 && byLotNum <= 10800) {
+            rankNum = 4;
+        } else {
+            rankNum = 5;
+        }
+
+        return rankNum;
+    }
+
+    //------------<addByLotData() / 추첨 정보 저장 메소드>------------------------------------------------------------------------------------
+    @Transactional
+    public void addByLotData(Winner winnerData) {
+        raffleRepository.addByLotData(winnerData);
+
+    }
 
 } // RaffleService class

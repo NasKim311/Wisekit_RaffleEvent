@@ -21,9 +21,9 @@ import lombok.Setter;
 public class Member {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memberIdSequence")
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memberIdSequence")
 	@Column(name = "\"회원 번호\"")
-	private Long memberNum;
+	private long memberNum;
 
 	@Column(name = "\"회원 이름\"")
 	private String memberName;

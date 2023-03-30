@@ -5,7 +5,7 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.processing.Generated;
+import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
@@ -25,8 +25,6 @@ public class QWinner extends EntityPathBase<Winner> {
     public final DatePath<java.time.LocalDate> ByLotDate = createDate("ByLotDate", java.time.LocalDate.class);
 
     public final QMember member;
-
-    public final NumberPath<Integer> winnerByLotNum = createNumber("winnerByLotNum", Integer.class);
 
     public final NumberPath<Long> winnerNum = createNumber("winnerNum", Long.class);
 
