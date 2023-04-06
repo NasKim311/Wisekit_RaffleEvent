@@ -1,7 +1,6 @@
 package com.wisekit.assignment.controller;
 
 import com.wisekit.assignment.domain.Member;
-import com.wisekit.assignment.domain.RankResultContents;
 import com.wisekit.assignment.domain.Winner;
 import com.wisekit.assignment.dto.MemberDTO;
 import com.wisekit.assignment.repository.MemberRepository;
@@ -13,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,8 +28,10 @@ public class TestController {
 
         Member memberData = new Member();
 
+
         for (int i = 1; i < 10; i++) {
-            Winner winner = new Winner();
+            Winner winner;
+
             member.setMemberName("회원" + i);
             member.setMemberPhoneNum(i + "");
 
@@ -50,6 +49,7 @@ public class TestController {
             winner.setByLotDate(LocalDate.now());
 
             raffleRepositoryInterface.save(winner);
+
 
         }
 
