@@ -8,7 +8,8 @@ import javax.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Member {
 

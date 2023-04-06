@@ -26,7 +26,7 @@ public class MemberService {
     //------------<createMember() / 회원 생성 메소드 (회원이 있을시를 가정하기 위함)>------------------------------------------------------------------------------------
     public void createMember() {
         System.out.println("createMember 사용");
-        int basicMemberCount = 1000;
+        int basicMemberCount = 10;
         List<Member> memberDatas = new ArrayList<Member>() {
             {
                 for (int i = 1; i < basicMemberCount; i++) {
@@ -34,7 +34,6 @@ public class MemberService {
                 }
             }
         };
-        System.out.println(memberDatas.size());
         memberRepositoryInterface.saveAll(memberDatas);
 
     }

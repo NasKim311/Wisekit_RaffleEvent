@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wisekit Raffle Result</title>
+    <link href="../css/basicCss.css" rel="stylesheet">
+    <link href="#" rel="shortcut icon">
+</head>
+<body>
+<h1 class="raffle-title">
+    <img src="/img/logo1.png"> Raffle Test!
+</h1>
+
+<div class="raffle-buttonBox">
+    <input class="raffle-button" id="raffle-button" onclick="location.href='/'"
+           type="button" value="뒤로 가기"/>
+</div>
+
+<div class="result-box">
+    <p></p>
+    <p>[[${testbyLotList}]]</p>
+</div>
+
+</body>
+<script type="text/javascript">
+    const raffleButton = document.getElementById('raffle-button');
+
+    raffleButton.addEventListener('mouseover', function (event) {
+        raffleButton.style.color = "#a4d255";
+        raffleButton.style.backgroundColor = "white";
+        raffleButton.style.fontSize = "70px";
+    })
+
+    raffleButton.addEventListener('mouseout', function (event) {
+        raffleButton.style.color = "white";
+        raffleButton.style.backgroundColor = "#a4d255";
+        raffleButton.style.fontSize = "50px";
+    })
+</script>
+</html>

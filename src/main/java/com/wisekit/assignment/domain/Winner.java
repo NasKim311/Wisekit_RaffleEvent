@@ -8,7 +8,8 @@ import lombok.*;
 
 @Entity
 @SequenceGenerator(name = "winnerIdSequence", sequenceName = "winner_seq", allocationSize = 1)
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Winner {
 
