@@ -12,12 +12,16 @@ spring:
     
   jpa:
     hibernate:
-      ddl-auto: create
+#      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
         format_sql: true
-        
+        jdbc:
+          batch_size: 1000
+          order_inserts: true
+          order_updates: true
+
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace

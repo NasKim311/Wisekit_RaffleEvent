@@ -58,13 +58,22 @@ public class RaffleRepository {
 
     }
 
-    //------------<findByMemberPhoneNum() / 중복추첨 방지를 위한 메소드(멤버정보를 이용해 당첨테이블에서 데이터 조회)>------------------------------------------------------------------------------------
-    public Winner findByMemberPhoneNum(String memberPhoneNum) {
+    //------------<findByMemberNamePhoneNum() / 중복추첨 방지를 위한 메소드(멤버정보를 이용해 당첨테이블에서 데이터 조회)>------------------------------------------------------------------------------------
+    public Winner findByMemberNamePhoneNum(String memberName, String memberPhoneNum) {
         queryFactory = new JPAQueryFactory(em);
 
-        Winner memberData = queryFactory.selectFrom(winner).where(winner.member.memberPhoneNum.eq(memberPhoneNum)).fetchOne();
+        Winner memberDataInWinner = queryFactory.selectFrom(winner).where(winner.member.memberName.eq(memberName),winner.member.memberPhoneNum.eq(memberPhoneNum)).fetchOne();
 
-        return memberData;
+        return memberDataInWinner;
+    }
+
+    //------------<findApplicantCountCount() / 총 응모자 인원을 리턴하는 메소드>------------------------------------------------------------------------------------
+    public Integer findApplicantCountCount(){
+        queryFactory = new JPAQueryFactory(em);
+
+        Integer applicantCount =queryFactory.select(winner.count()).from(winner).fetchOne().intValue();
+
+        return applicantCount;
     }
 
 } // RaffleRepository class

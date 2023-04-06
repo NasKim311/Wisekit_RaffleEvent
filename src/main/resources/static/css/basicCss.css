@@ -3,6 +3,11 @@
 	color: orange;
 	font-size: 50px;
 }
+.contents {
+	text-align: center;
+	color: orange;
+	font-size: 30px;
+}
 
 .raffle-buttonBox {
 	text-align: center;
@@ -22,6 +27,13 @@
 	padding: 10px 30px;
 	font-size: 50px;
 }
+.index-button {
+	background-color: #a4d255;
+	color: white;
+	border: none;
+	padding: 10px 30px;
+	font-size: 25px;
+}
 
 .result-box {
 	text-align: center;
@@ -33,5 +45,5 @@
 	text-align: center;
 	border-color: #dc3545;
 	color: #dc3545;
-	font-size: 45px;
+	font-size: 30px;
 }

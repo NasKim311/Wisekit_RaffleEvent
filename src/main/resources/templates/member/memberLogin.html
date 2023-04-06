@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wisekit Event Start</title>
+    <link rel="stylesheet" href="../css/basicCss.css">
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+<h1 class="raffle-title">
+    <img src="/img/logo1.png"> Raffle!
+</h1>
+<div class="contents">
+   <span>로그인 페이지입니다.</span>
+    <button type="button" onclick="location.href='/member/joinPage'">회원가입</button>
+</div>
+<form action="/member/login" method="post" th:object="${memberDTO}">
+
+    <div class="raffle-buttonBox">
+        <label for="memberName">이름 : </label> <input type="text"
+                                                     placeholder="이름을 입력해주세요." class="text-box"
+                                                     th:field="*{memberName}"/>
+    </div>
+    <div class="raffle-buttonBox">
+        <label for="memberPhoneNum">번호 : </label> <input type="text"
+                                                         placeholder="핸드폰 번호를 입력해주세요.(-제외)" class="text-box"
+                                                         th:field="*{memberPhoneNum}"/>
+    </div>
+    <div class="raffle-buttonBox">
+        <input type="submit" id="submitButton"/>
+    </div>
+    <div class="field-error">
+        <input type="text" class="field-error" id="error" readonly>
+    </div>
+</form>
+<div class="contents">
+    <button type="button" onclick="console.log('버튼눌림'); location.href='/member/addBasicMember'" id="addBtn">기존회원추가</button>
+</div>
+</body>
+
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+    let form = document.querySelector('form');
+    form.addEventListener('submit', test);
+
+    function test(evt) {
+        evt.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            url: "/memberAndByLotDoubleCheck",
+            data: {
+                memberName: form.memberName.value,
+                memberPhoneNum: form.memberPhoneNum.value
+            },
+            dataType: "text",
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+            success: function (data) {
+                if (data === '성공') {
+                    form.submit();
+                } else {
+                    let error = form.querySelector('#error');
+                    error.value = data;
+                }
+            }
+        });
+    }
+</script>
+
+
+</html>

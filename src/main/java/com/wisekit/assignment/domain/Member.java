@@ -3,36 +3,33 @@ package com.wisekit.assignment.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@SequenceGenerator(name = "memberIdSequence", sequenceName = "member_seq", allocationSize = 1)
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class Member {
 
-	@Id
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memberIdSequence")
-	@Column(name = "\"회원 번호\"")
-	private long memberNum;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "\"회원 번호\"")
+    private long memberNum;
 
-	@Column(name = "\"회원 이름\"")
-	private String memberName;
+    @Column(name = "\"회원 이름\"")
+    private String memberName;
 
-	@Column(name = "\"회원 핸드폰 번호\"")
-	private String memberPhoneNum;
+    @Column(name = "\"회원 핸드폰 번호\"")
+    private String memberPhoneNum;
 
-	// --------<@OneToMany / winner>-------------------------------------------------------------------------------------
-	@OneToMany(mappedBy = "member")
-	private List<Winner> winners = new ArrayList<Winner>();
+    // --------<@OneToMany / winner>-------------------------------------------------------------------------------------
+    @OneToMany(mappedBy = "member")
+    private List<Winner> winners = new ArrayList<Winner>();
 
+    @Builder
+    public Member(String memberName, String memberPhoneNum) {
+        this.memberName = memberName;
+        this.memberPhoneNum = memberPhoneNum;
+    }
 } // Member class

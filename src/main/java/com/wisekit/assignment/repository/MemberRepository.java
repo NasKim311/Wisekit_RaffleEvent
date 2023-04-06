@@ -2,7 +2,6 @@ package com.wisekit.assignment.repository;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -12,7 +11,6 @@ import static com.wisekit.assignment.domain.QMember.*;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,22 +20,15 @@ public class MemberRepository {
     JPAQueryFactory queryFactory;
 
     //------------<memberJoin() / 멤버정보 저장하는 메소드>------------------------------------------------------------------------------------
-    public void createMember(List<Member> member) {
-
-
-    }
-
-
-    //------------<memberJoin() / 멤버정보 저장하는 메소드>------------------------------------------------------------------------------------
     public void memberJoin(Member member) {
         em.persist(member);
     }
 
-    //------------<findAllMemberList() /해당 이름과 번호로 데이터 조회하는 메소드>------------------------------------------------------------------------------------
-    public Member findByNamePhoneNum(String memberPhoneNum) {
+    //------------<findByNamePhoneNum() / 해당 이름과 번호로 데이터 조회하는 메소드>------------------------------------------------------------------------------------
+    public Member findByNamePhoneNum(String memberName, String memberPhoneNum) {
         queryFactory = new JPAQueryFactory(em);
 
-        Member memberData = queryFactory.selectFrom(member).where(member.memberPhoneNum.eq(memberPhoneNum)).fetchOne();
+        Member memberData = queryFactory.selectFrom(member).where(member.memberName.eq(memberName), member.memberPhoneNum.eq(memberPhoneNum)).fetchOne();
 
         return memberData;
     }
