@@ -20,9 +20,9 @@ public class MemberController {
     private final MemberService memberService;
 
     //------------<addBasicMember() / 기존회원 버튼 클릭시 이동>------------------------------------------------------------------------------------
-    @GetMapping("/member/addBasicMember")
+    @GetMapping("/member/basic")
     public String addBasicMember(@RequestParam(defaultValue = "/") String redirectURL) {
-        memberService.createMember();
+        memberService.createbasicMember();
         return "redirect:" + redirectURL;
     }
 
@@ -42,6 +42,7 @@ public class MemberController {
     @PostMapping("/member/login")
     public String memberLogin(@ModelAttribute MemberDTO memberDTO, HttpServletRequest request) {
         Member member = Member.builder().memberName(memberDTO.getMemberName()).memberPhoneNum(memberDTO.getMemberPhoneNum()).build();
+
         // 세션사용
         HttpSession session = request.getSession();
         session.setAttribute("member", member);
@@ -60,24 +61,22 @@ public class MemberController {
         return "raffle/raffleReady";
     }
 
-    //------------<memberJoinDoubleCheck() / 회원 중복 확인>------------------------------------------------------------------------------------
+    //------------<joinDoubleCheck() / 회원가입 중복 확인>------------------------------------------------------------------------------------
     @ResponseBody
-    @RequestMapping(value = "/memberDoubleCheck", method = RequestMethod.POST)
-    public String memberJoinDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
+    @RequestMapping(value = "/joinDoubleCheck", method = RequestMethod.POST)
+    public String joinDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
         if (memberService.memberDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) != null) {
             return "존재하는 회원입니다.";
         }
         return "성공";
     }
 
-    //------------<memberAndByLotDoubleCheck() / 회원확인 및 이벤트 사용 중복 확인>------------------------------------------------------------------------------------
+    //------------<loginDoubleCheck() / 로그인 중복 확인>------------------------------------------------------------------------------------
     @ResponseBody
-    @RequestMapping(value = "/memberAndByLotDoubleCheck", method = RequestMethod.POST)
-    public String memberAndByLotDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
+    @RequestMapping(value = "/loginDoubleCheck", method = RequestMethod.POST)
+    public String loginDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
         if (memberService.memberDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) == null) {
             return "회원 정보가 없습니다.";
-        } else if (memberService.byLotDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) != null) {
-            return "중복 추첨은 불가합니다.";
         }
         return "성공";
     }

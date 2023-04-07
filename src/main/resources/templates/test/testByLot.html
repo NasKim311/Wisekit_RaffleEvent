@@ -17,8 +17,29 @@
 </div>
 
 <div class="result-box">
-    <p></p>
-    <p>[[${testbyLotList}]]</p>
+    <table>
+        <tr>
+            <td th:text="'1등 : ' + ${firstWinnerCount} "></td>
+        </tr>
+        <tr>
+            <td th:text="'2등 : ' + ${secondWinnerCount} "></td>
+        </tr>
+        <tr>
+            <td th:text="'3등 : ' + ${thirdWinnerCount} "></td>
+        </tr>
+        <tr>
+            <td th:text="'4등 : ' + ${fourthWinnerCount} "></td>
+        </tr>
+    </table>
+    <br/>
+    <table>
+        <tr th:each="item : ${testbyLotList}">
+            <td th:text="'당첨자 번호 : ' + ${item.winnerNum}"></td>
+            <td th:text="'당첨자 등수 : ' + ${item.winnerRank}"></td>
+            <td th:text="'당첨 날짜 : ' + ${item.byLotDate}"></td>
+            <td th:text="'회원 번호 : ' + ${item.member.memberNum}"></td>
+        </tr>
+    </table>
 </div>
 
 </body>

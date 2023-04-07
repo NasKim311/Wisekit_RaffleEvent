@@ -15,10 +15,15 @@
         <input type="submit" value="Click me!!" class="raffle-button"
                id="raffle-button"/>
     </div>
+    <div class="field-error">
+        <input type="text" class="field-error" id="error" readonly>
+    </div>
 </form>
 
 
 </body>
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 <script type="text/javascript">
     const raffleButton = document.getElementById('raffle-button');
@@ -34,6 +39,33 @@
         raffleButton.style.backgroundColor = "#a4d255";
         raffleButton.style.fontSize = "50px";
     })
+
+    // 룰렛 중복확인 ajax--------------------------------------------
+    let form = document.querySelector('form');
+    form.addEventListener('submit', test);
+
+    function test(evt) {
+        evt.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            url: "/byLotDoubleCheck",
+            data: {
+                memberName: form.memberName.value,
+                memberPhoneNum: form.memberPhoneNum.value
+            },
+            dataType: "text",
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+            success: function (data) {
+                if (data === '성공') {
+                    form.submit();
+                } else {
+                    let error = form.querySelector('#error');
+                    error.value = data;
+                }
+            }
+        });
+    }
 </script>
 
 </html>

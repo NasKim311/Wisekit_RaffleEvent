@@ -34,7 +34,7 @@
     </div>
 </form>
 <div class="contents">
-    <button type="button" onclick="location.href='/member/addBasicMember'" id="addBtn">기존회원추가</button>
+    <button type="button" onclick="location.href='/member/basic'" id="addBtn">기존회원추가</button>
 </div>
 <div class="contents">
     <button type="button" onclick="location.href='/test/byLot'" id="addBtn">테스트버튼</button>
@@ -53,7 +53,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/memberAndByLotDoubleCheck",
+            url: "/loginDoubleCheck",
             data: {
                 memberName: form.memberName.value,
                 memberPhoneNum: form.memberPhoneNum.value
