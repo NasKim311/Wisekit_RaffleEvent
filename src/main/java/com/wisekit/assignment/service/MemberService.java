@@ -2,8 +2,6 @@ package com.wisekit.assignment.service;
 
 import javax.transaction.Transactional;
 
-import com.wisekit.assignment.domain.Winner;
-import com.wisekit.assignment.repository.RaffleRepository;
 import com.wisekit.assignment.repository.MemberRepositoryInterface;
 import org.springframework.stereotype.Service;
 

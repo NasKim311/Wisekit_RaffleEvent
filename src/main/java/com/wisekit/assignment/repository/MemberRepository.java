@@ -11,7 +11,6 @@ import static com.wisekit.assignment.domain.QMember.*;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {

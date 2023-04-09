@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 
 import com.wisekit.assignment.domain.Member;
 import com.wisekit.assignment.domain.Winner;
-import com.wisekit.assignment.dto.MemberDTO;
 import com.wisekit.assignment.service.RaffleService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,8 +69,13 @@ public class RaffleController {
     //------------<byLotDoubleCheck() / 이벤트 사용 중복 확인>------------------------------------------------------------------------------------
     @ResponseBody
     @RequestMapping(value = "/byLotDoubleCheck", method = RequestMethod.POST)
-    public String byLotDoubleCheck(@ModelAttribute MemberDTO memberDTO) {
-        if (raffleService.byLotDoubleCheck(memberDTO.getMemberName(), memberDTO.getMemberPhoneNum()) != null) {
+    public String byLotDoubleCheck(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        Member member = new Member();
+        member = (Member) session.getAttribute("member");
+
+        if (raffleService.byLotDoubleCheck(member.getMemberName(), member.getMemberPhoneNum()) != null) {
             return "중복 추첨은 불가합니다.";
         }
         return "성공";
